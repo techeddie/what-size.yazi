@@ -79,26 +79,23 @@ local function format_size(size)
 end
 
 return {
-  -- as per doc: https://yazi-rs.github.io/docs/plugins/overview#functional-plugin
   entry = function(_, job)
-    -- defaults not to use clipboard, use it only if required by the user
     local clipboard = job.args.clipboard == true or job.args[1] == "--clipboard" or job.args[1] == "-c"
     local items = get_paths()
 
     local total_size = get_total_size(items)
     local formatted_size = format_size(total_size)
 
-    local notification_content = "Total size: " .. formatted_size
     if clipboard then
       ya.clipboard(formatted_size)
-      notification_content = notification_content .. "\nCopied to clipboard."
     end
 
     -- Show the total size in the status bar instead of a notification
-    ya.stat({
-      text = "Total size: " .. formatted_size,
+    ya.stat {
+      text = "TEST Total size: " .. formatted_size,
       style = "bold",
       timeout = 4, -- disappears after 4 seconds
-    })
+    }
   end,
 }
+

@@ -27,14 +27,14 @@ what-size supports Yazi on Linux, macOS, and Windows.
 ## Installation
 
 ```sh
-ya pkg add pirafrank/what-size
+ya pkg add techeddie/what-size
 ```
 
 or
 
 **DEPRECATED**
 ```sh
-ya pack -a 'pirafrank/what-size'
+ya pack -a 'techeddie/what-size'
 ```
 
 ## Usage

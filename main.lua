@@ -53,7 +53,7 @@ local function get_total_size(items)
   end
 end
 
--- Format size for display
+-- Format size
 local function format_size(size)
   local units = { "B", "KB", "MB", "GB", "TB" }
   local unit_index = 1
@@ -64,28 +64,24 @@ local function format_size(size)
   return string.format("%.2f %s", size, units[unit_index])
 end
 
--- Plugin entry
+-- Synchronous entry
 return {
-  entry = function(_, job)
+  entry = ya.sync(function(_, job)
     local clipboard = job.args.clipboard == true or job.args[1] == "--clipboard" or job.args[1] == "-c"
     local items = get_paths()
 
-    -- Async calculation to avoid blocking Yazi
-    ya.spawn(function()
-      local total_size = get_total_size(items)
-      local formatted_size = format_size(total_size)
+    local total_size = get_total_size(items)
+    local formatted_size = format_size(total_size)
 
-      if clipboard then
-        ya.clipboard(formatted_size)
-      end
+    if clipboard then
+      ya.clipboard(formatted_size)
+    end
 
-      -- Show in status bar instead of notification
-      ya.stat {
-        text = "Total size: " .. formatted_size,
-        style = "bold",
-        timeout = 4,
-      }
-    end)
-  end,
+    ya.stat {
+      text = "Total size: " .. formatted_size,
+      style = "bold",
+      timeout = 4,
+    }
+  end),
 }
 

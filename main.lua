@@ -79,7 +79,7 @@ local function format_size(size)
 end
 
 return {
-  entry = function(_, job)
+  entry = ya.sync(function(_, job)
     local clipboard = job.args.clipboard == true or job.args[1] == "--clipboard" or job.args[1] == "-c"
     local items = get_paths()
 
@@ -90,12 +90,10 @@ return {
       ya.clipboard(formatted_size)
     end
 
-    -- Show the total size in the status bar instead of a notification
-    ya.stat {
-      text = "TEST Total size: " .. formatted_size,
-      style = "bold",
-      timeout = 4, -- disappears after 4 seconds
-    }
-  end,
+    ya.notify({
+      title = "What size",
+      content = notification_content,
+      timeout = 4,
+    })
+  end),
 }
-
